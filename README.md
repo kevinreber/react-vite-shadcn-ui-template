@@ -1,7 +1,5 @@
 # React + Vite + TypeScript Template (react-vite-ui)
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dan5py/react-vite-ui/blob/main/LICENSE)
-
 A React + Vite template powered by shadcn/ui.
 
 ## 🎉 Features
@@ -30,7 +28,7 @@ Follow these steps to get started with the react-vite-ui template:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/dan5py/react-vite-ui.git
+   git clone https://github.com/kevinreber/react-vite-shadcn-ui-template.git
    ```
 
 2. Navigate to the project directory:
@@ -42,21 +40,21 @@ Follow these steps to get started with the react-vite-ui template:
 3. Install the dependencies:
 
    ```bash
-   pnpm install
+   npm install
    ```
 
 4. Start the development server:
 
    ```bash
-   pnpm dev
+   npm run dev
    ```
 
 ## 📜 Available Scripts
 
-- pnpm dev - Starts the development server.
-- pnpm build - Builds the production-ready code.
-- pnpm lint - Runs ESLint to analyze and lint the code.
-- pnpm preview - Starts the Vite development server in preview mode.
+- npm dev - Starts the development server.
+- npm build - Builds the production-ready code.
+- npm lint - Runs ESLint to analyze and lint the code.
+- npm preview - Starts the Vite development server in preview mode.
 
 ## 📂 Project Structure
 

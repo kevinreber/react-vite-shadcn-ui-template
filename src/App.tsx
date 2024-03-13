@@ -23,10 +23,11 @@ import {
   Table,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import PageContainer from "./components/PageContainer";
 
 function App() {
   return (
-    <main className="bg-white p-4">
+    <PageContainer>
       <Card>
         <CardHeader>
           <CardTitle>Questionnaire</CardTitle>
@@ -151,7 +152,7 @@ function App() {
           </div>
         </CardContent>
       </Card>
-    </main>
+    </PageContainer>
   );
 }
 

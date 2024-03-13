@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Header from "./components/Header.tsx";
 import "@/styles/globals.css";
+import BuildsPage from "./pages/BuildsPage.tsx";
 
 // Whenever we add a new Route, we need to add it here
 // "element" is the component that will be rendered when the path is matched
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/builds",
-    element: <h1>View Builds</h1>,
+    element: <BuildsPage />,
   },
 ]);
 

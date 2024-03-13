@@ -10,7 +10,12 @@ const Header = () => {
       <nav className="flex space-x-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <a className="hover:underline" href="#">
+            <a className="hover:underline" href="/">
+              Home
+            </a>
+          </DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
+            <a className="hover:underline" href="/builds">
               View Builds
             </a>
           </DropdownMenuTrigger>

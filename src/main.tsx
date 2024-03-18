@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Header from "./components/Header.tsx";
 import "@/styles/globals.css";
 import BuildsPage from "./pages/BuildsPage.tsx";
+import { Toaster } from "@/components/ui/toaster";
 
 // Whenever we add a new Route, we need to add it here
 // "element" is the component that will be rendered when the path is matched
@@ -24,5 +25,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Header />
     {/* <App /> */}
     <RouterProvider router={router} />
+    <Toaster />
   </React.StrictMode>
 );

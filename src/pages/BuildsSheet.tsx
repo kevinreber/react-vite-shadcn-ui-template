@@ -13,10 +13,33 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Table, TableRow, TableCell } from "@/components/ui/table";
 import mock_build_data from "../data/mock_build_data.json"
+
+const MOCK_DATA = [
+  {
+    id: 123,
+    title: 'Halo'
+  },
+  {
+    id: 345,
+    title: 'Harry Potter'
+  }
+]
+
 
 // Function to fetch data from the API
 const fetchDataFromAPI = async () => {
@@ -56,12 +79,46 @@ const MOCK_BUILDS: BuildType[] = [
 ];
 
 
+
+  const PopupContent = (props : {text: string; data: any[]}) => {
+    const isValidText = props.text ? props.text : 'No text'
+    const dataToJSON = JSON.stringify(props.data, undefined, 2);
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button  className="ml-4">
+              View Logs
+            </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Viewing Logs</DialogTitle>
+            <DialogTitle>{props.text}</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <Card>
+
+          <pre>{dataToJSON}</pre>
+          </Card>
+          <DialogFooter>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+
+
 const BuildsSheet = () => {
   const [builds, setBuilds] = React.useState<BuildType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showTable, setShowTable] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); // State variable to manage popup visibility
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,6 +139,11 @@ const BuildsSheet = () => {
       fetchData();
     }
   }, [isLoading]);
+
+  const handleLogsClick = () => {
+    setShowPopup(true); // Show the popup when logs are clicked
+  };
+
 
   const handleFetchClick = () => {
     setShowTable(true);
@@ -131,6 +193,7 @@ const BuildsSheet = () => {
             <Button onClick={handleFetchClick} className="ml-4">
               Fetch!
             </Button>
+          <PopupContent text="hello world" data={MOCK_DATA} />
           </div>
           {showTable && (
             <>

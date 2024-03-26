@@ -4,7 +4,9 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Header from "./components/Header.tsx";
 import "@/styles/globals.css";
-import BuildsPage from "./pages/BuildsPage.tsx";
+import BuildsSheet from "./pages/BuildsSheet.tsx";
+import ConfigsPage from "./pages/ConfigGen.tsx";
+import BuildsStatusPage from "./pages/BuildStatus.tsx"
 import { Toaster } from "@/components/ui/toaster";
 
 // Whenever we add a new Route, we need to add it here
@@ -16,7 +18,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/builds",
-    element: <BuildsPage />,
+    element: <BuildsSheet />,
+  },
+  {
+    path: "/configgen",
+    element: <ConfigsPage />,
+  },
+  {
+    path: "/buildstatus",
+    element: <BuildsStatusPage />,
   },
 ]);
 

@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
-import { Separator } from "./ui/separator";
+import { Separator } from "@/components/ui/separator";
 
 const FormSeparator = () => (
   <div className="col-span-2 my-1">
@@ -84,16 +84,16 @@ const buildFormSchema = z.object({
   startingBgpAsn: z.string(),
   // Device Role/Count Fields
   // MPLS Router
-  mplsRouter: z.string(),
+  mplsRouter: z.coerce.number(),
   // Internet Router
-  internetRouter: z.string(),
-  collapsedSpine: z.string(),
-  internetFirewall: z.string(),
-  aggregation: z.string(),
-  managementLeaf: z.string(),
-  consoleServer: z.string(),
-  managementSwitch: z.string(),
-  accessSwitch: z.string(),
+  internetRouter: z.coerce.number(),
+  collapsedSpine: z.coerce.number(),
+  internetFirewall: z.coerce.number(),
+  aggregation: z.coerce.number(),
+  managementLeaf: z.coerce.number(),
+  consoleServer: z.coerce.number(),
+  managementSwitch: z.coerce.number(),
+  accessSwitch: z.coerce.number(),
 });
 
 type BuildFormValues = z.infer<typeof buildFormSchema>;
@@ -106,15 +106,15 @@ const DEFAULT_FORM_VALUES = {
   numberOfPods: undefined,
   subnet: undefined,
   startingBgpAsn: undefined,
-  mplsRouter: "0",
-  internetRouter: "0",
-  collapsedSpine: "0",
-  internetFirewall: "0",
-  aggregation: "0",
-  managementLeaf: "0",
-  consoleServer: "0",
-  managementSwitch: "0",
-  accessSwitch: "0",
+  mplsRouter: 0,
+  internetRouter: 0,
+  collapsedSpine: 0,
+  internetFirewall: 0,
+  aggregation: 0,
+  managementLeaf: 0,
+  consoleServer: 0,
+  managementSwitch: 0,
+  accessSwitch: 0,
 };
 
 function BuildForm() {
@@ -126,6 +126,14 @@ function BuildForm() {
   });
 
   const watchBuildTypeChange = formInstance.watch("buildType");
+  
+  // Example useEfect
+  // const watchBuildMPLSRouter = formInstance.watch("mplsRouter");
+// React.useEffect(() => {
+//   if (Number(watchBuildMPLSRouter) > 10){
+//     formInstance.setValue("internetRouter", 10);
+//   }
+// },[watchBuildMPLSRouter])
 
   React.useEffect(() => {
     if (watchBuildTypeChange === "standard-office") {
@@ -140,27 +148,28 @@ function BuildForm() {
        * - `setValue` method: https://react-hook-form.com/docs/useform/setvalue
        * - How to set multiple values at once using react-hook-form: https://stackoverflow.com/questions/70267924/how-to-set-multiple-values-at-once-in-react-hook-form-using-typescript
        */
-      formInstance.setValue("mplsRouter", "2");
-      formInstance.setValue("internetRouter", "2");
-      formInstance.setValue("collapsedSpine", "2");
-      formInstance.setValue("internetFirewall", "2");
-      formInstance.setValue("aggregation", "2");
-      formInstance.setValue("managementLeaf", "2");
-      formInstance.setValue("consoleServer", "2");
-      formInstance.setValue("managementSwitch", "2");
-      formInstance.setValue("accessSwitch", "2");
+      formInstance.setValue("mplsRouter", 2);
+      formInstance.setValue("internetRouter", 2);
+      formInstance.setValue("collapsedSpine", 2);
+      formInstance.setValue("internetFirewall", 2);
+      formInstance.setValue("aggregation", 2);
+      formInstance.setValue("managementLeaf", 2);
+      formInstance.setValue("consoleServer", 2);
+      formInstance.setValue("managementSwitch", 2);
+      formInstance.setValue("accessSwitch", 2);
     } else {
-      formInstance.setValue("mplsRouter", "0");
-      formInstance.setValue("internetRouter", "0");
-      formInstance.setValue("collapsedSpine", "0");
-      formInstance.setValue("internetFirewall", "0");
-      formInstance.setValue("aggregation", "0");
-      formInstance.setValue("managementLeaf", "0");
-      formInstance.setValue("consoleServer", "0");
-      formInstance.setValue("managementSwitch", "0");
-      formInstance.setValue("accessSwitch", "0");
+      formInstance.setValue("mplsRouter", 0);
+      formInstance.setValue("internetRouter", 0);
+      formInstance.setValue("collapsedSpine", 0);
+      formInstance.setValue("internetFirewall", 0);
+      formInstance.setValue("aggregation", 0);
+      formInstance.setValue("managementLeaf", 0);
+      formInstance.setValue("consoleServer", 0);
+      formInstance.setValue("managementSwitch", 0);
+      formInstance.setValue("accessSwitch", 0);
     }
   }, [watchBuildTypeChange, formInstance]);
+
 
   const handleSubmitForm = (data: BuildFormValues) => {
     console.log("Submitting Form Data...");
@@ -180,13 +189,26 @@ function BuildForm() {
     setShowModal(false); // Close the modal after action
     handleResetForm(); // Reset the form fields after action
 
-    toast({
-      title: "Success, Build Generated!",
-      description: (
+    // TODO: handle API logic here
+    let toastMessage = '';
+    let description : React.ReactNode = '';
+    try{
+      // API request
+      toastMessage ='Success';
+      description = (
         <a href="/builds" className="text-blue-500">
           View Builds
         </a>
-      ),
+      )
+    } catch (error) {
+      console.error(error)
+      toastMessage ='Error'
+      description = 'View Logs'
+    }
+
+    toast({
+      title: toastMessage,
+      description
     });
   };
 
@@ -243,7 +265,6 @@ function BuildForm() {
                         ))}
                       </SelectContent>
                     </Select>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -369,7 +390,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>MPLS Router</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -386,7 +407,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Internet Router</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -405,7 +426,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Collapsed Spine</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -422,7 +443,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Internet Firewall</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -440,7 +461,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Aggregation</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -457,7 +478,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Management Leaf</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -475,7 +496,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Console Server</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -492,7 +513,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Management Switch</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>
@@ -510,7 +531,7 @@ function BuildForm() {
                       <div className="flex justify-between w-full items-baseline">
                         <FormLabel>Access Switch</FormLabel>
                         <FormControl className="max-w-60">
-                          <Input {...field} />
+                          <Input {...field} type="number"/>
                         </FormControl>
                         <FormMessage />
                       </div>

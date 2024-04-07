@@ -8,6 +8,7 @@ import BuildsSheet from "./pages/BuildsSheet.tsx";
 import ConfigsPage from "./pages/ConfigGen.tsx";
 import BuildsStatusPage from "./pages/BuildStatus.tsx";
 import { Toaster } from "@/components/ui/toaster";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Create a client
@@ -39,6 +40,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Header />
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      {/* Toggle react query dev tools below */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
     <Toaster />
   </React.StrictMode>
